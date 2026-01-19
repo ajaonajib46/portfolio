@@ -657,8 +657,8 @@ const Home = () => {
                           videoRefs.current[item.id] = el;
                         }}
                         src={item.image}
-                        preload="metadata"
-                        className={`h-[50vh] md:h-[500px] object-cover cursor-pointer bg-black transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] ${
+                        preload="auto"
+                        className={`h-[65vh] md:h-[500px] object-cover cursor-pointer bg-black transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] ${
                           isPlaying
                             ? "min-w-[100vw] md:min-w-[97vw]"
                             : "min-w-[85vw] md:min-w-[80vh]"
@@ -696,9 +696,7 @@ const Home = () => {
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="min-w-[80vh] h-[500px] object-cover"
-                      alt={item.title}
-                      className="min-w-[80vh] h-[500px] object-cover"
+                      className="min-w-[85vw] md:min-w-[80vh] h-[65vh] md:h-[500px] object-cover"
                     />
                   )}
                   <div
