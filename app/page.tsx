@@ -183,31 +183,38 @@ const Home = () => {
   const workItems = [
     {
       id: 1,
-      title: "Brand Revolution",
-      category: "Commercial",
+      title: "Cognibud Brand",
+      category: "Brand Intro Video",
       image:
-        "https://ik.imagekit.io/gx2xyzf36/AQNW_BxPs9MswAIz_SJ13h40hybHYhmFoiXESrVDeYvfxQZ-ZXZtUfP0aiYEmzkcuqO8kRzfRU32yTNflSGi1rN_HLLVHNYS0lgYo_E.mp4?updatedAt=1767362097626",
+        "https://res.cloudinary.com/dwwex37bd/video/upload/v1768758429/fumxqq7lqgvyk9i48msy.mp4",
     },
     {
       id: 2,
-      title: "Future Forward",
-      category: "Branded Content",
+      title: "Mulk",
+      category: "Brand Intro Video",
       image:
-        "https://ik.imagekit.io/gx2xyzf36/wedding-void.mp4?updatedAt=1767362102048",
+        "https://res.cloudinary.com/dwwex37bd/video/upload/v1768759220/Itwg5928_yulaij.mp4",
     },
     {
       id: 3,
-      title: "Urban Stories",
-      category: "Documentary",
+      title: "Sports",
+      category: "Training Session",
       image:
-        "https://ik.imagekit.io/gx2xyzf36/lavenu-void.mp4?updatedAt=1767362080444",
+        "https://res.cloudinary.com/dwwex37bd/video/upload/v1768759487/Aqcg6863_kwvzt5.mp4",
     },
     {
       id: 4,
-      title: "Motion Design",
-      category: "Animation",
+      title: "Mulk",
+      category: "Campaign Video",
       image:
-        "https://res.cloudinary.com/dcoza82oi/video/upload/v1767695561/lemonade_kx4ul5.mp4",
+        "https://res.cloudinary.com/dwwex37bd/video/upload/v1768767674/Mattt_nopexl.mp4",
+    },
+    {
+      id: 5,
+      title: "Mulk",
+      category: "Short Form Video",
+      image:
+        "https://res.cloudinary.com/dwwex37bd/video/upload/v1768770393/EYDG3003_g9oplq.mp4",
     },
   ];
 
@@ -374,7 +381,7 @@ const Home = () => {
           {hoveredWork !== null &&
             workItems
               .find((i) => i.id === hoveredWork)
-              ?.image.includes(".mp4") && (
+              ?.image.match(/\.(mp4|mov)$/i) && (
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -418,21 +425,17 @@ const Home = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div className="text-xl font-bold tracking-tight">LOGO</div>
+          <div className="text-xl font-bold tracking-tight">codenamej1b</div>
 
           <nav className="hidden md:flex items-center gap-8">
             <a href="#work" className="hover:opacity-60 transition-colors">
               Work
             </a>
-            <a href="#services" className="hover:opacity-60 transition-colors">
-              Services
-            </a>
+          
             <a href="#about" className="hover:opacity-60 transition-colors">
               About
             </a>
-            <a href="#blog" className="hover:opacity-60 transition-colors">
-              Blog
-            </a>
+          
             <button className="bg-white text-black px-6 py-2 rounded-full hover:bg-gray-200 transition-all">
               Contact
             </button>
@@ -456,24 +459,14 @@ const Home = () => {
               >
                 Work
               </a>
-              <a
-                href="#services"
-                className="text-xl hover:opacity-60 transition-colors"
-              >
-                Services
-              </a>
+          
               <a
                 href="#about"
                 className="text-xl hover:opacity-60 transition-colors"
               >
                 About
               </a>
-              <a
-                href="#blog"
-                className="text-xl hover:opacity-60 transition-colors"
-              >
-                Blog
-              </a>
+              
               <button className="bg-white text-black px-6 py-3 rounded-full hover:bg-gray-200 transition-all mt-2">
                 Contact
               </button>
@@ -493,7 +486,7 @@ const Home = () => {
                 transition={{ duration: 1, ease: "easeOut" }}
                 className=" lg:text-7xl text-5xl font-bold leading-tight mb-2 pt-24 w-full"
               >
-                THE GALAXY
+                Hi, I'm Najib
               </motion.h1>
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -506,7 +499,7 @@ const Home = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
                 >
-                  <Typewriter text="An agency for all things " duration={2} />
+                  <Typewriter text="Your guy for all things " duration={2} />
                 </motion.span>
                 <motion.span
                   initial={{ opacity: 0, y: 8 }}
@@ -594,7 +587,7 @@ const Home = () => {
             ref={workScrollRef}
           >
             {workItems.map((item) => {
-              const isVideo = item.image.includes(".mp4");
+              const isVideo = item.image.endsWith(".mp4") || item.image.endsWith(".mov");
               const isPlaying = playingVideoId === item.id;
               const isMuted = videoMuted[item.id] === true; // Default to unmuted
 
@@ -614,7 +607,7 @@ const Home = () => {
                       v.pause();
                     }
                   });
-                  video.play();
+                  video.play().catch((e) => console.log("Play interrupted:", e));
                   setPlayingVideoId(item.id);
                   // Snap the playing item to the left edge of the scroll container
                   // Use a microtask to ensure layout reflects size changes before scrolling
@@ -668,7 +661,14 @@ const Home = () => {
                         muted={isMuted}
                         onEnded={() => setPlayingVideoId(null)}
                       >
-                        <source src={item.image} type="video/mp4" />
+                        <source
+                          src={item.image}
+                          type={
+                            item.image.endsWith(".mov")
+                              ? "video/quicktime"
+                              : "video/mp4"
+                          }
+                        />
                       </video>
                       {/* Speaker Icon - appears when video is playing */}
                       <AnimatePresence>
@@ -730,134 +730,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 px-6 bg-zinc-950 text-white">
-        <div className="max-w-7xl mx-auto ">
-          <div className="relative inline-block mb-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className=" opacity-60 text-lg tracking-widest"
-            >
-              OUR PROCESS
-            </motion.div>
-            <motion.div
-              className="absolute bottom-[-8px] left-0 h-[2px]"
-              initial={{ width: "50%" }}
-              animate={{ width: "100%" }}
-              transition={{
-                duration: 7,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{
-                originX: 0,
-                backgroundColor: isDarkMode ? "#ff9500" : "#303EF7",
-              }}
-            />
-          </div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-            className="text-4xl md:text-5xl font-bold mb-16"
-          >
-            Video production
-            <br />
-            should be{" "}
-            <span style={{ color: isDarkMode ? "#ff9500" : "#303EF7" }}>
-              {" "}
-              easy{" "}
-            </span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-            className="text-xl opacity-60 mb-16 max-w-3xl"
-          >
-            We prioritize flexibility, streamlined processes, and creative that
-            positively impacts your business. From commercials to animation,
-            documentaries to branded content, we&#39;ve got you covered.
-          </motion.p>
-          <div className="relative inline-block mb-8 md:mt-24 ">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className=" opacity-60 text-lg tracking-widest "
-            >
-              WHAT WE DO ?
-            </motion.div>
-            <motion.div
-              className="absolute bottom-[-8px] left-0 h-[2px]"
-              initial={{ width: "50%" }}
-              animate={{ width: "100%" }}
-              transition={{
-                duration: 7,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{
-                originX: 0,
-                backgroundColor: isDarkMode ? "#ff9500" : "#303EF7",
-              }}
-            />
-          </div>
-          <div className="flex gap-[2px] overflow-x-scroll scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            {services.map((service, idx) => {
-              const isPlaying = playingServiceId === idx;
-              const handleEnter = () => {
-                setHoveredService(idx);
-                const current = servicesVideoRefs.current[idx];
-                if (!current) return;
-                Object.values(servicesVideoRefs.current).forEach((v) => {
-                  if (v && v !== current) v.pause();
-                });
-                current.muted = true;
-                current.play();
-                setPlayingServiceId(idx);
-              };
-              const handleLeave = () => {
-                setHoveredService(null);
-                const current = servicesVideoRefs.current[idx];
-                if (current) current.pause();
-                setPlayingServiceId(null);
-              };
-              return (
-                <div
-                  key={idx}
-                  onMouseEnter={handleEnter}
-                  onMouseLeave={handleLeave}
-                  className="relative group w-[80vw] md:w-[300px] h-[90vh] overflow-hidden flex-shrink-0"
-                >
-                  <video
-                    ref={(el) => {
-                      servicesVideoRefs.current[idx] = el;
-                    }}
-                    playsInline
-                    muted
-                    className="relative z-0 w-full h-full object-cover"
-                  >
-                    <source src={service.video} type="video/mp4" />
-                  </video>
-                  <div className="absolute inset-0 z-10 bg-black/60 transition-opacity duration-300 flex items-center justify-center">
-                    <h3 className=" font-medium opacity-80 group-hover:text-white transform transition-transform duration-300 ease-in-out group-hover:scale-105">
-                      {service.title}
-                    </h3>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      
 
       {/* About Section */}
       <section id="about" className="py-20 px-6">
@@ -869,7 +742,7 @@ const Home = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="mb-8 opacity-60 text-sm tracking-widest"
           >
-            YOUR OBJECTIVES
+            MY GOAL
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -878,11 +751,11 @@ const Home = () => {
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
             className="text-4xl md:text-5xl font-bold mb-8"
           >
-            We hear you
+           To bring visions to life with
             <br />
             <span style={{ color: isDarkMode ? "#ff9500" : "#303EF7" }}>
               {" "}
-              loud & clear{" "}
+              agility and purpose.{" "}
             </span>
           </motion.h2>
           <motion.p
@@ -892,67 +765,13 @@ const Home = () => {
             transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
             className="text-xl opacity-60 max-w-3xl mb-12"
           >
-            Muddled messaging leads to uninspired, underperforming videos.
-            We&#39;ll work with you to clarify your story, then help you push it
-            in unexpected directions. Whether you need strategy first or
-            you&#39;re ready to cut footage, we&#39;ll take you from sticky note
-            to final.mp4.
+            I thrive on uncovering unexpected solutions, finding creative ways to transform ideas into impactful outcomes.
           </motion.p>
         </div>
       </section>
 
       {/* Blog Section */}
-      <section id="blog" className="py-20 px-6 bg-zinc-950 text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
-            <div className="relative inline-block ">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className=" opacity-60 text-lg tracking-widest "
-              >
-                ARTICLES WE HAVE PUBLISHED
-              </motion.div>
-              <motion.div
-                className="absolute bottom-[-8px] left-0 h-[2px]"
-                initial={{ width: "50%" }}
-                animate={{ width: "100%" }}
-                transition={{
-                  duration: 7,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-                style={{
-                  originX: 0,
-                  backgroundColor: isDarkMode ? "#ff9500" : "#303EF7",
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            {blogPosts.map((post, idx) => (
-              <div
-                key={idx}
-                className="relative group cursor-pointer transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] hover:z-10"
-              >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={post.image}
-                    className="w-full h-[220px] object-cover duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity duration-300 group-hover:opacity-0" />
-                </div>
-                <h3 className="text-2xl absolute font-bold top-[45%] left-[5%] text-white/50 transition-colors duration-300 group-hover:text-white z-10">
-                  {post.title}
-                </h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    
 
       {/* CTA Section */}
       <section className="py-24 px-6">
@@ -971,10 +790,10 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-            href="mailto:hello@visionary.studio"
+            href="mailto: ajaonajib46@gmail.com"
             className="text-2xl md:text-3xl opacity-60 hover:text-white transition-colors inline-block mb-12"
           >
-            hello@thevoid.studio
+            ajaonajib46@gmail.com
           </motion.a>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -999,73 +818,16 @@ const Home = () => {
                 className="text-2xl font-bold mb-4"
                 style={{ color: isDarkMode ? "#ff9500" : "#303EF7" }}
               >
-                THE GALAXY
+                NAJIB AJAO
               </div>
               <p className="opacity-60">Creating visual stories that matter.</p>
             </div>
-            <div>
-              <h4 className="font-bold mb-4">Services</h4>
-              <ul className="space-y-2 opacity-60">
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Commercials
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Animation
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Documentaries
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Company</h4>
-              <ul className="space-y-2 opacity-60">
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Careers
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Connect</h4>
-              <ul className="space-y-2 opacity-60">
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Instagram
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Twitter
-                  </a>
-                </li>
-              </ul>
-            </div>
+          
+          
+        
           </div>
           <div className="pt-8 border-t border-gray-800 text-center opacity-60">
-            <p>© 2026 The Galaxy Studio. All rights reserved.</p>
+            <p>© 2026 codenamej1b All rights reserved.</p>
           </div>
         </div>
       </footer>
