@@ -642,7 +642,9 @@ const Home = () => {
               return (
                 <div
                   key={item.id}
-                  className="relative group snap-start snap-always flex-shrink-0"
+                  className={`relative group snap-start snap-always flex-shrink-0 ${
+                    workItems.indexOf(item) === 0 ? "hidden md:block" : ""
+                  }`}
                   onMouseEnter={() => setHoveredWork(item.id)}
                   onMouseLeave={() => setHoveredWork(null)}
                   onClick={handleVideoClick}
