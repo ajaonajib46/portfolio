@@ -56,6 +56,7 @@ const TrailCursor = ({
     <motion.div
       className="fixed top-0 left-0 rounded-full pointer-events-none z-[9998] opacity-80 mix-blend-screen"
       style={{
+      
         x,
         y,
         backgroundColor: color,
@@ -67,6 +68,7 @@ const TrailCursor = ({
 };
 
 const Home = () => {
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [scrolled, setScrolled] = useState(false);
@@ -587,7 +589,7 @@ const Home = () => {
             ref={workScrollRef}
           >
             {workItems.map((item) => {
-              const isVideo = item.image.endsWith(".mp4") || item.image.endsWith(".mov");
+              const isVideo = /\.(mp4|mov)($|\?)/i.test(item.image);
               const isPlaying = playingVideoId === item.id;
               const isMuted = videoMuted[item.id] === true; // Default to unmuted
 
@@ -648,28 +650,23 @@ const Home = () => {
                     itemRefs.current[item.id] = el;
                   }}
                 >
-                  {true ? (
+                  {isVideo ? (
                     <>
                       <video
                         ref={(el) => {
                           videoRefs.current[item.id] = el;
                         }}
-                        className={`min-w-[100vw] h-[500px] object-cover cursor-pointer bg-black transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] ${
-                          isPlaying ? "md:min-w-[97vw]" : "md:min-w-[80vh]"
+                        src={item.image}
+                        preload="metadata"
+                        className={`h-[50vh] md:h-[500px] object-cover cursor-pointer bg-black transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] ${
+                          isPlaying
+                            ? "min-w-[100vw] md:min-w-[97vw]"
+                            : "min-w-[85vw] md:min-w-[80vh]"
                         }`}
                         playsInline
                         muted={isMuted}
                         onEnded={() => setPlayingVideoId(null)}
-                      >
-                        <source
-                          src={item.image}
-                          type={
-                            item.image.endsWith(".mov")
-                              ? "video/quicktime"
-                              : "video/mp4"
-                          }
-                        />
-                      </video>
+                      />
                       {/* Speaker Icon - appears when video is playing */}
                       <AnimatePresence>
                         {isPlaying && (
@@ -698,6 +695,8 @@ const Home = () => {
                   ) : (
                     <img
                       src={item.image}
+                      alt={item.title}
+                      className="min-w-[80vh] h-[500px] object-cover"
                       alt={item.title}
                       className="min-w-[80vh] h-[500px] object-cover"
                     />
