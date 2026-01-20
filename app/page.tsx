@@ -687,6 +687,15 @@ const Home = () => {
                         onEnded={() => setPlayingVideoId(null)}
                       />
                       {/* Speaker Icon - appears when video is playing */}
+                      <img
+                        src={getVideoPoster(item.image)}
+                        alt=""
+                        aria-hidden="true"
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                          isPlaying ? "opacity-0" : "opacity-100"
+                        }`}
+                      />
+                      {/* Speaker Icon - appears when video is playing */}
                       <AnimatePresence>
                         {isPlaying && (
                           <motion.button
