@@ -485,7 +485,7 @@ const Home = () => {
               
               <button 
   className="bg-white text-black px-8 py-3 rounded-full hover:bg-gray-200 transition-all"
-  onClick={() => window.open("https://wa.me/2348012345678?text=Hi%20Najib,%20I'd%20like%20to%20start%20a%20video%20project", "_blank")}
+  onClick={() => window.open("https://wa.me/2348149597049?text=Hi%20Najib,%20I'd%20like%20to%20start%20a%20video%20project", "_blank")}
 >
   Contact
 </button>
