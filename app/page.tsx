@@ -307,6 +307,17 @@ const Home = () => {
     );
   };
 
+  const getVideoPoster = (url: string) => {
+    const isCloudinary =
+      url.includes("res.cloudinary.com") && url.includes("/video/upload/");
+    if (isCloudinary) {
+      return url
+        .replace("/video/upload/", "/video/upload/so_0/")
+        .replace(/\.(mp4|mov)(\?.*)?$/i, ".jpg");
+    }
+    return url.replace(/\.(mp4|mov)(\?.*)?$/i, ".jpg");
+  };
+
   const isBlobActive = isTextHover || hoveredWork !== null;
   const variants = {
     default: {
@@ -488,7 +499,7 @@ const Home = () => {
                 transition={{ duration: 1, ease: "easeOut" }}
                 className=" lg:text-7xl text-5xl font-bold leading-tight mb-2 pt-24 w-full"
               >
-                Hi, I'm Najib
+                Hi, I&#39;m Najib
               </motion.h1>
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -659,6 +670,7 @@ const Home = () => {
                           videoRefs.current[item.id] = el;
                         }}
                         src={item.image}
+                        poster={getVideoPoster(item.image)}
                         preload="auto"
                         className={`h-[65vh] md:h-[500px] object-cover cursor-pointer bg-black transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] ${
                           isPlaying
