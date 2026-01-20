@@ -449,9 +449,12 @@ const Home = () => {
               About
             </a>
           
-            <button className="bg-white text-black px-6 py-2 rounded-full hover:bg-gray-200 transition-all">
-              Contact
-            </button>
+           <button 
+  className="bg-white text-black px-8 py-3 rounded-full hover:bg-gray-200 transition-all"
+  onClick={() => window.open("https://wa.me/2348149597049?text=Hi%20Najib,%20I'd%20like%20to%20start%20a%20video%20project", "_blank")}
+>
+  Contact
+</button>
           </nav>
 
           <button
@@ -670,7 +673,6 @@ const Home = () => {
                           videoRefs.current[item.id] = el;
                         }}
                         src={item.image}
-                        poster={getVideoPoster(item.image)}
                         preload="auto"
                         className={`h-[65vh] md:h-[500px] object-cover cursor-pointer bg-black transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] ${
                           isPlaying
@@ -813,9 +815,12 @@ const Home = () => {
             transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <button className="bg-white text-black px-8 py-3 rounded-full hover:bg-gray-200 transition-all">
-              Start a Project
-            </button>
+            <button 
+  className="bg-white text-black px-8 py-3 rounded-full hover:bg-gray-200 transition-all"
+  onClick={() => window.open("https://wa.me/2348149597049?text=Hi%20Najib,%20I'd%20like%20to%20start%20a%20video%20project", "_blank")}
+>
+  Start a Project
+</button>
           </motion.div>
         </div>
       </section>
